@@ -65,7 +65,7 @@ func (p *PingService) Add(ctx context.Context, create *models.CreatePingData) (*
 	}
 
 	country, err := getLocationByMaxmind(ctx, create.IP)
-	ping.Country = country.CountryName
+	ping.Country = country.CountryCode
 
 	err = p.storage.Save(ctx, ping)
 	if err != nil {

@@ -1,0 +1,6 @@
+app_port: 4321
+
+redis:
+  redis_addr: 6379
+  redis_pass: "eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81"
+  redis_db: 0

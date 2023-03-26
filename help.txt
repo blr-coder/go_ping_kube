@@ -1,0 +1,10 @@
+docker build --tag go_ping_kube:multipart .
+
+docker run --detach --publish 1234:4321 go_ping_kube:multipart
+
+docker exec -it go_ping_kube_redis_1 redis-cli
+
+### REDIS
+AUTH eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+PING
+HGETALL ping_hash

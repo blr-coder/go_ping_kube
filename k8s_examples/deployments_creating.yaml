@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ping-deployment
+  labels:
+    app: test-k8s-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      project: ping-test
+  template:
+    metadata:
+      labels:
+        project: ping-test
+    spec:
+      containers:
+        - name: ping-test-web
+          image: go_ping_kube:multipart
+          ports:
+            - containerPort: 4334

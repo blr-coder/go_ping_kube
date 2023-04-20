@@ -43,6 +43,7 @@ func (p *PingService) Add(ctx context.Context, create *models.CreatePingData) (*
 	logrus.Info(ua.String)
 	logrus.Info(strings.Repeat("=", len(ua.String)))
 
+	// TODO: Add constants for client
 	ping.Client = fmt.Sprintf("%s v: %s", ua.Name, ua.Version)
 	if ua.Mobile {
 		ping.Device = "Mobile"
@@ -89,7 +90,7 @@ func getLocationByMaxmind(_ context.Context, userIP string) (*models.Location, e
 		return nil, err
 	}
 
-	if host == "127.0.0.1" {
+	if host == "127.0.0.1" || host == "::1" {
 		return &models.Location{CountryCode: "TEST"}, nil
 	}
 

@@ -7,6 +7,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/redis/go-redis/v9"
 	"github.com/sirupsen/logrus"
+	"go_ping_kube/internal/domain/errs"
 	"go_ping_kube/internal/domain/models"
 )
 
@@ -43,6 +44,9 @@ func (s *PingRedisStore) Get(ctx context.Context, uuid uuid.UUID) (*models.PingD
 
 	data := s.Client.HGet(ctx, "ping_hash", uuid.String())
 	if data.Err() != nil {
+		if data.Err() == redis.Nil {
+			return nil, errs.NewDomainNotFoundError(uuid.String())
+		}
 		return nil, data.Err()
 	}
 

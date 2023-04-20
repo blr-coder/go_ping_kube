@@ -2,10 +2,12 @@ package rest
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/darahayes/go-boom"
 	uuid2 "github.com/google/uuid"
 	"github.com/sirupsen/logrus"
+	"go_ping_kube/internal/domain/errs"
 	"go_ping_kube/internal/domain/models"
 	"go_ping_kube/internal/domain/services"
 	"net/http"
@@ -61,6 +63,14 @@ func (h *PingHandler) Get(w http.ResponseWriter, r *http.Request) {
 
 	data, err := h.service.Get(r.Context(), uuid)
 	if err != nil {
+		// TODO: Move to func like "handleDomainErr"
+
+		rErr := &errs.DomainNotFoundError{}
+		if errors.As(err, &rErr) {
+			boom.NotFound(w, err.Error())
+			return
+		}
+
 		boom.Internal(w, err)
 		return
 	}

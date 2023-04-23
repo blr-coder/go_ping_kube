@@ -50,6 +50,11 @@ func (h *PingHandler) Ping(w http.ResponseWriter, r *http.Request) {
 func (h *PingHandler) Get(w http.ResponseWriter, r *http.Request) {
 	logrus.Info("GET !!!")
 
+	if r.Method != http.MethodGet {
+		boom.MethodNotAllowed(w)
+		return
+	}
+
 	get := r.URL.Query().Get("uuid")
 	logrus.Info("uuid =>", get)
 
